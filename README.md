@@ -1,4 +1,4 @@
-# network-chat_course-project
+# Курсовой проект "Сетевой чат"
 
 Чат состоит из двух частей: Server side, Client side.
 
