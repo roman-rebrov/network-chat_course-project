@@ -82,9 +82,10 @@ public class ClientSideApplication {
         ) {
 
             while (!this.chatService.isSocketClosed()) {
-
-                String str = scan.nextLine();
-                this.chatService.sendMessage(str);
+                if (scan.hasNext()) {
+                    String str = scan.nextLine();
+                    this.chatService.sendMessage(str);
+                }
 
             }
 

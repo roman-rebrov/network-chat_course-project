@@ -1,11 +1,13 @@
 package com.chat_server_side.application.services;
 
+import com.chat_server_side.application.connections.Account;
 import com.chat_server_side.application.connections.Client;
 import com.chat_server_side.application.loggers.Logger;
 import com.chat_server_side.application.loggers.Loggers;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Consumer;
 
 /**
  *
@@ -27,7 +29,7 @@ public class ChatService {
      * @param message строковое сообщение.
      *
      */
-    public synchronized void sendMessage(final Client clientSocket, String message)  {
+    public synchronized void sendMessage(final Client clientSocket, String message, Account account)  {
 
         if (message != null && message.equals("--exit")){
             message = "User: " + clientSocket.getNickname() + " disconnected";
@@ -35,6 +37,7 @@ public class ChatService {
             clientSocket.disconnect();
             connectedClients.remove(clientSocket);
             Thread.currentThread().interrupt();
+            account.logout();
         }else if(message == null) {
 
             message = "User: " + clientSocket.getNickname() + ": " + "interrupted";
@@ -43,6 +46,8 @@ public class ChatService {
             connectedClients.remove(clientSocket);
             Thread.currentThread().interrupt();
             System.out.println(connectedClients.size());
+            account.logout();
+
 
         }else {
             logger.log("User: " + clientSocket.getNickname() + ": " + message);

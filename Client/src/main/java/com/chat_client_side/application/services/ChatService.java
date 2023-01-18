@@ -48,17 +48,22 @@ public class ChatService {
         this.receiveThread = new Thread(() -> {
             while (true) {
 
+                if (Thread.currentThread().isInterrupted()) {
+                    break;
+                }
+
                 try {
                     String res = null;
-                    if (!Thread.currentThread().isInterrupted()) {
-                        res = in.readLine();
-                        this.logger.log(res);
-                    }else{
-                        break;
+                    if (in.ready()) {
+
+                            res = in.readLine();
+                            this.logger.log(res);
+
+                            final String messageForming = "[" + DateTimeFormatter.ofPattern("HH:mm").format(ZonedDateTime.now()) + "] " + res;
+                            System.out.println(messageForming);
+
                     }
 
-                    final String messageForming = "[" + DateTimeFormatter.ofPattern("HH:mm").format(ZonedDateTime.now()) + "] " + res;
-                    System.out.println(messageForming);
 
                 } catch (IOException e) {
                     e.printStackTrace();

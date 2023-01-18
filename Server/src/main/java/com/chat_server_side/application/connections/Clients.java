@@ -76,11 +76,7 @@ public class Clients {
              */
             @Override
             public void disconnect() {
-                try {
-                    socket.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                close();
             }
 
 
@@ -120,6 +116,10 @@ public class Clients {
             @Override
             public void close() {
                 try {
+                    if (this.socket.isInputShutdown() && this.socket.isOutputShutdown()) {
+                        this.socket.shutdownInput();
+                        this.socket.shutdownOutput();
+                    }
                     this.socket.close();
                 } catch (IOException e) {
                     e.printStackTrace();

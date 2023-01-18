@@ -47,7 +47,9 @@ public class ClientThread implements Runnable {
         while (!Thread.currentThread().isInterrupted() || !client.isClosed()) {
 
             String message = this.client.listen();
-            this.chatService.sendMessage(this.client, message);
+            this.chatService.sendMessage(this.client, message, () -> {
+                return auth.logout(client);
+            });
 
         }
 

@@ -30,7 +30,7 @@ public class Auth {
             boolean result = false;
             String name = client.listen();
 
-            if (name.equals("--exit")){
+            if (name != null && name.equals("--exit")){
                 return false;
             }
             if (name.length() > MAX_NAME_LENGTH || name.length() < MIN_NAME_LENGTH) {
@@ -53,5 +53,9 @@ public class Auth {
             }
         }
 
+    }
+
+    public boolean logout(Client client){
+        return nicknames.remove(client.getNickname());
     }
 }
